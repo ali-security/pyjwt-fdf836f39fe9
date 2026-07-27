@@ -21,6 +21,8 @@ jobs:
   # Always build & lint package.
   build-package:
     name: Build & verify package
+    # Non-test job — disabled on the fork.
+    if: false
     runs-on: ubuntu-latest
 
     steps:
@@ -34,7 +36,7 @@ jobs:
   release-test-pypi:
     name: Publish in-dev package to test.pypi.org
     environment: release-test-pypi
-    if: github.repository_owner == 'jpadilla' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: false
     runs-on: ubuntu-latest
     needs: build-package
 
@@ -54,7 +56,7 @@ jobs:
   release-pypi:
     name: Publish released package to pypi.org
     environment: release-pypi
-    if: github.repository_owner == 'jpadilla' && github.event.action == 'published'
+    if: false
     runs-on: ubuntu-latest
     needs: build-package
 

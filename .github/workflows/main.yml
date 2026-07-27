@@ -3,14 +3,15 @@ name: CI
 
 on:
   push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
   workflow_dispatch:
 
 jobs:
   tests:
     name: "Python ${{ matrix.python-version }} on ${{ matrix.platform }}"
+    # Disabled on the fork: the seal cross-platform gate resolves the workflow
+    # from version-patch-ADDED files only, so this job's exact matrix + tox
+    # command run from .github/workflows/seal-xplat.yml instead.
+    if: false
     runs-on: "${{ matrix.platform }}"
     env:
       USING_COVERAGE: '3.9'
@@ -53,17 +54,14 @@ jobs:
           python -m coverage xml
         if: "contains(env.USING_COVERAGE, matrix.python-version) && matrix.platform == 'ubuntu-latest'"
 
-      - name: "Upload coverage to Codecov"
-        if: "contains(env.USING_COVERAGE, matrix.python-version) && matrix.platform == 'ubuntu-latest'"
-        uses: "codecov/codecov-action@v5"
-        with:
-          fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: true
+      # Codecov upload step removed: requires the upstream CODECOV_TOKEN secret,
+      # which is unavailable on the fork.
 
   package:
     name: "Build & verify package"
     runs-on: "ubuntu-latest"
+    # Non-test job (packaging/twine check only) — disabled on the fork.
+    if: false
 
     steps:
       - uses: "actions/checkout@v4"
@@ -91,6 +89,8 @@ jobs:
 
     name: "Verify dev env"
     runs-on: "${{ matrix.os }}"
+    # Non-test job (dev-install smoke check only) — disabled on the fork.
+    if: false
 
     steps:
       - uses: "actions/checkout@v4"

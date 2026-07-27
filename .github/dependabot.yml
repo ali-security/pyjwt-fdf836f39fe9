@@ -1,6 +1,8 @@
+# Disabled on the seal fork: dependabot triggers noisy dependency-graph update
+# runs that add failing checks. Upstream config kept below, commented out.
 version: 2
-updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "daily"
+updates: []
+#  - package-ecosystem: "github-actions"
+#    directory: "/"
+#    schedule:
+#      interval: "daily"
